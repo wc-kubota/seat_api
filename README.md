@@ -27,7 +27,7 @@
 * 障害対応終了後、developブランチにもマージ
 
 ## Issuesの運用方法
-### Issueを立てる
+### Issueをたてる
 - Issues → New Issue → テンプレート選択
 
 ## ローカル環境の作成方法
