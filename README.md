@@ -26,6 +26,9 @@
 * 問題なければhotfixブランチをmasterにマージ
 * 障害対応終了後、developブランチにもマージ
 
+## Issuesの運用方法
+###Issueを立てる
+- Issues → New Issue → テンプレート選択
 
 ## ローカル環境の作成方法
 
@@ -34,7 +37,7 @@
 cd Application/tsushin
 sbt run
 ```
-### codegenの方法
+## codegenの方法
 ```
 sbt "runMain generator.SlickModelGenerator"
 ```
