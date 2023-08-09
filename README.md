@@ -1,8 +1,6 @@
 # seat_api
 座席表のAPIです。
 
-<img src="./Application/tsushin/public/images/header_logo.png">
-
 ## ブランチ運用フロー
 ### 各ブランチ
 * master: 本番環境にデプロイされているコード
