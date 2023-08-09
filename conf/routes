@@ -1,0 +1,41 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+# Map static resources from the /public folder to the /assets URL path
+
+GET     /assets/*file                                           controllers.Assets.versioned(path="/public", file: Asset)
+
+
+GET     /getAllSeat/                                            controllers.endpoints.FetchAllSeatController.fetchAllSeat()
+
+# 座席全取得
+GET     /seating-chart/seats/                                   controllers.endpoints.seatingChart.SeatController.getSeatByFloorId()
+
+# 座席表取得
+GET     /seating-chart/seating-chart/                           controllers.endpoints.seatingChart.SeatingChartController.getSeatingChart()
+GET     /seating-chart/seating-chart-with-users/                controllers.endpoints.seatingChart.SeatingChartWithUsersController.getSeatingChartWithUsers()
+
+# 組織関連
+# 本部
+GET     /department/headquarters/                               controllers.endpoints.department.HeadquarterController.fetchHeadquarter()
+# division
+GET     /department/divs/                                       controllers.endpoints.department.DivController.fetchDiv()
+# group
+GET     /department/groups/                                     controllers.endpoints.department.GroupController.fetchGroup()
+# team
+GET     /department/teams/                                      controllers.endpoints.department.TeamController.fetchTeam()
+
+# 従業員関連
+# director
+GET     /employee/directors/                                    controllers.endpoints.employee.DirectorController.fetchDirector()
+# employee
+GET     /employee/employees/                                    controllers.endpoints.employee.EmployeeController.fetchEmployee()
+GET     /employee/employees/:employeeId/                        controllers.endpoints.employee.EmployeeController.fetchEmployeeByEmployeeId(employeeId: Int)
+POST    /employee/employees/:employeeId/                        controllers.endpoints.employee.EmployeeController.updateEmployee(employeeId: Int)
+GET     /employee/employees/employee-full-info/                 controllers.endpoints.employee.EmployeeFullInfoController.fetchEmployeeFullInfo()
+POST    /employee/employees/employee-full-info/:employeeId/     controllers.endpoints.employee.EmployeeFullInfoController.updateEmployeeFullInfo(employeeId: Int)
+
+
+GET     /                           controllers.HomeController.index()
