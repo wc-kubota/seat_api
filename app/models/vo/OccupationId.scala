@@ -13,7 +13,10 @@ case class OccupationId(value: Int) extends AnyVal
 
 object OccupationId {
   def apply(value: Option[Int]): OccupationId = {
-    OccupationId(value)
+    value match {
+      case Some(value) => OccupationId (value)
+      case None => throw new RuntimeException("OccupationIdの取得に失敗")
+    }
   }
 }
 

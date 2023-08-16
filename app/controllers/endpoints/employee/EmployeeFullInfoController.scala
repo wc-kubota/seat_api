@@ -1,12 +1,12 @@
 package controllers.endpoints.employee
 
 import cats.data.EitherT
-import controllers.requests.UpdateEmployeeFullInfoRequest
 import controllers.responses.ErrorResponse
-import controllers.responses.employee.{GetEmployeeFullInfoResponse, UpdateEmployeeFullInfoResponse}
+import controllers.responses.employee.GetEmployeeFullInfoResponse
 import io.circe.syntax.EncoderOps
-import models.usecases.employee.{EmployeeFullInfoOutput, EmployeeFullInfoUsecase, UpdateEmployeeFullInfoUsecase}
-import models.vo.{Count, EmployeeId}
+import models.usecases.employee.{EmployeeFullInfoOutput, EmployeeFullInfoUsecase}
+
+import models.vo.{Count}
 import play.api.libs.circe.Circe
 import play.api.mvc.{AbstractController, Action, ControllerComponents}
 
@@ -17,7 +17,6 @@ import scala.concurrent._
 
 class EmployeeFullInfoController @Inject()(
                                             employeeFullInfoUsecase: EmployeeFullInfoUsecase,
-                                            updateEmployeeFullInfoUsecase: UpdateEmployeeFullInfoUsecase,
                                             cc:ControllerComponents
                                           )( ec: ExecutionContext) extends AbstractController(cc) with Circe {
 
@@ -29,7 +28,7 @@ class EmployeeFullInfoController @Inject()(
     (for {
       result <- EitherT {
         employeeFullInfoUsecase.handle().map(r => (r.employeeCount) match {
-          case Count(0) => Left("NOT_FOUND_DIv")
+          case Count(0) => Left("NOT_FOUND_DIV")
           case _ => Right(r)
         })
       }
@@ -40,21 +39,21 @@ class EmployeeFullInfoController @Inject()(
     }
   }
 
-  /**
-   * 従業員の詳しい情報を更新
-   * @param employeeId
-   * @return
-   */
-
-  def updateEmployeeFullInfo(employeeId: Int) = (Action(circe.json[UpdateEmployeeFullInfoRequest])
-    ).async { implicit request =>
-    for {
-      employeeFullInfo <- updateEmployeeFullInfoUsecase.handle()(EmployeeId.apply(Option(employeeId)), request.body.toUpdateEmployeeFullInfoInput())
-    } yield employeeFullInfo.result match {
-      case Right(_) =>
-        Ok(UpdateEmployeeFullInfoResponse.UpdatedEmployeeResponse().asJson)
-      case Left(error) =>
-        InternalServerError(UpdateEmployeeFullInfoResponse.FailedUpdateEmployeeFullInfoResponse("FAILED", error.toString).asJson)
-    }
-  }
+//  /**
+//   * 従業員の詳しい情報を更新
+//   * @param employeeId
+//   * @return
+//   */
+//
+//  def updateEmployeeFullInfo(employeeId: Int) = (Action(circe.json[UpdateEmployeeFullInfoRequest])
+//    ).async { implicit request =>
+//    for {
+//      employeeFullInfo <- updateEmployeeFullInfoUsecase.handle()(EmployeeId.apply(Option(employeeId)), request.body.toUpdateEmployeeFullInfoInput())
+//    } yield employeeFullInfo.result match {
+//      case Right(_) =>
+//        Ok(UpdateEmployeeFullInfoResponse.UpdatedEmployeeResponse().asJson)
+//      case Left(error) =>
+//        InternalServerError(UpdateEmployeeFullInfoResponse.FailedUpdateEmployeeFullInfoResponse("FAILED", error.toString).asJson)
+//    }
+//  }
 }
