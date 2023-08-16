@@ -1,11 +1,10 @@
 package infrastructures.db
 
 import com.google.inject.Inject
-import infrastructures.seatApp.Tables.{MDirector, MDiv, MEmployee, MGroup, MHeadquarter, MOccupation, MSex, MTeam, MEmployeeRow}
-import models.entities.department.{Div, Headquarter, Group, Team}
+import infrastructures.seatApp.Tables.{MDirector, MDiv, MEmployee, MGroup, MHeadquarter, MOccupation, MSex, MTeam}
+import models.entities.department.{Div, Group, Headquarter, Team}
 import models.entities.employee.{Director, Employee, EmployeeFullInfo, Occupation, Sex}
 import models.repositories.employee.EmployeeFullInfoRepository
-import models.usecases.employee.UpdateEmployeeFullInfoInput
 import models.vo._
 import play.api.db.slick._
 import slick.jdbc.JdbcProfile
@@ -28,13 +27,13 @@ class EmployeeFullInfoRepositoryImpl @Inject()(
   override def fetchEmployeeFullInfo(): Future[Seq[EmployeeFullInfo]] = {
     val query = (for {
         employee <- MEmployee
-        sex <- MSex if (employee.sexId === sex.sexId)
-        headquarter <- MHeadquarter if employee.headquartersId === headquarter.headquarterId
-        div <- MDiv if employee.divId === div.divId
-        group <- MGroup if employee.groupId === group.groupId
-        team <- MTeam if employee.teamId === team.teamId
-        director <- MDirector if employee.directorId === director.directorId
-        occupation <- MOccupation if employee.occupationId === occupation.occupationId
+        sex <- MSex if (sex.sexId === employee.sexId)
+        headquarter <- MHeadquarter if headquarter.headquarterId === employee.headquartersId
+        div <- MDiv if div.divId === employee.divId
+        group <- MGroup if group.groupId === employee.groupId
+        team <- MTeam if team.teamId === employee.teamId
+        director <- MDirector if director.directorId === employee.directorId
+        occupation <- MOccupation if occupation.occupationId === employee.occupationId
       } yield (
         employee,
         sex,
@@ -44,68 +43,57 @@ class EmployeeFullInfoRepositoryImpl @Inject()(
         team,
         director,
         occupation
-        )).result
-      .map(_.map( r =>
-        EmployeeFullInfo(
-          Employee(
-            EmployeeId(r._1.employeeId),
-            NameKanji(r._1.nameKanji),
-            NameKana(r._1.nameKana)
-          ),
-          Sex(
-            SexId(r._2.sexId),
-            SexName(r._2.sexName)
-          ),
-          Headquarter(
-            HeadquarterId(Option(r._3.headquarterId)),
-            HeadquarterName(Option(r._3.headquarterName))
-          ),
-          Div(
-            DivId(Option(r._4.divId)),
-            DivName(Option(r._4.divName)),
-          ),
-          Group(
-            GroupId(Option(r._5.groupId)),
-            GroupName(Option(r._5.groupName))
-          ),
-          Team(
-            TeamId(Option(r._6.teamId)),
-            TeamName(Option(r._6.teamName))
-          ),
-          Director(
-            DirectorId(Option(r._7.directorId)),
-            DirectorName(Option(r._7.directorName))
-          ),
-          Occupation(
-            OccupationId(r._8.occupationId),
-            OccupationName(Option(r._8.occupationName))
-          )
-        ))
-      )
-    db.run(query)
-  }
-
-  override def updateEmployeeFullInfo(input: UpdateEmployeeFullInfoInput, employeeId: EmployeeId): Future[Boolean] = {
-    val employeeFullInfoRow = toEmployeeFullInfoRow(input)
-    val query = MEmployee
-      .filter(_.employeeId === input.employeeFullInfo.employee.employeeId.value)
-      .update(employeeFullInfoRow)
-
-    db.run(query).map(_ == 1)
-  }
-
-  private def toEmployeeFullInfoRow(input: UpdateEmployeeFullInfoInput): MEmployeeRow = {
-    MEmployeeRow(
-      nameKanji = input.employeeFullInfo.employee.nameKanji.value,
-      nameKana = input.employeeFullInfo.employee.nameKanji.value,
-      sexId = input.employeeFullInfo.sex.sexId.value,
-      headquartersId = Option(input.employeeFullInfo.headquarter.headquarterId.value),
-      divId = Option(input.employeeFullInfo.div.divId.value),
-      groupId = Option(input.employeeFullInfo.group.groupId.value),
-      teamId = Option(input.employeeFullInfo.team.teamId.value),
-      directorId = Option(input.employeeFullInfo.director.directorId.value),
-      occupationId = Option(input.employeeFullInfo.occupation.occupationId.value)
-    )
+      )).result
+        .map(_.map (
+          { case (
+          employee,
+          sex,
+          headquarter,
+          div,
+          group,
+          team,
+          director,
+          occupation
+          ) =>
+          EmployeeFullInfo.apply(
+              Employee.apply(
+                EmployeeId.apply(employee.employeeId),
+                NameKanji.apply(employee.nameKanji),
+                NameKana.apply(employee.nameKana)
+              ),
+              Sex.apply(
+                SexId.apply(sex.sexId),
+                SexName.apply(sex.sexName)
+              ),
+              Headquarter.apply(
+                HeadquarterId.apply(headquarter.headquarterId),
+                HeadquarterName.apply(headquarter.headquarterName)
+              ),
+              Div.apply(
+                DivId.apply(div.divId),
+                DivName.apply(div.divName),
+              ),
+              Group.apply(
+                GroupId.apply(group.groupId),
+                GroupName.apply(group.groupName)
+              ),
+              Team.apply(
+                TeamId.apply(team.teamId),
+                TeamName.apply(team.teamName)
+              ),
+              Director.apply(
+                DirectorId.apply(director.directorId),
+                DirectorName.apply(director.directorName)
+              ),
+              Occupation.apply(
+                OccupationId.apply(occupation.occupationId),
+                OccupationName.apply(occupation.occupationName)
+              )
+            )
+          }
+        )
+        )
+        db.run(query)
   }
 }
 

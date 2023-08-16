@@ -10,14 +10,14 @@ import io.circe.generic.extras.semiauto._
 /**
  * 従業員の情報
  *
- * @param Seq[Employee]
+ * @param Employee
  * @param SexId
- * @param Seq[Headquarter]
- * @param Seq[Div]
- * @param Seq[Group]
- * @param Seq[Team]
- * @param Seq[Director]
- * @param Seq[Occupation]
+ * @param Headquarter
+ * @param Div
+ * @param Group
+ * @param Team
+ * @param Director
+ * @param Occupation
  */
 
 case class EmployeeFullInfo(

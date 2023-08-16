@@ -31,11 +31,11 @@ GET     /department/teams/                                      controllers.endp
 # director
 GET     /employee/directors/                                    controllers.endpoints.employee.DirectorController.fetchDirector()
 # employee
+GET     /employee/employees/employee-full-info/                 controllers.endpoints.employee.EmployeeFullInfoController.fetchEmployeeFullInfo()
 GET     /employee/employees/                                    controllers.endpoints.employee.EmployeeController.fetchEmployee()
 GET     /employee/employees/:employeeId/                        controllers.endpoints.employee.EmployeeController.fetchEmployeeByEmployeeId(employeeId: Int)
 POST    /employee/employees/:employeeId/                        controllers.endpoints.employee.EmployeeController.updateEmployee(employeeId: Int)
-GET     /employee/employees/employee-full-info/                 controllers.endpoints.employee.EmployeeFullInfoController.fetchEmployeeFullInfo()
-POST    /employee/employees/employee-full-info/:employeeId/     controllers.endpoints.employee.EmployeeFullInfoController.updateEmployeeFullInfo(employeeId: Int)
+#POST    /employee/employees/employee-full-info/:employeeId/     controllers.endpoints.employee.EmployeeFullInfoController.updateEmployeeFullInfo(employeeId: Int)
 
 
 GET     /                           controllers.HomeController.index()
