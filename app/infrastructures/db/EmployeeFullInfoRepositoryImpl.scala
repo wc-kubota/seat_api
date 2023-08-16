@@ -1,10 +1,11 @@
 package infrastructures.db
 
 import com.google.inject.Inject
-import infrastructures.seatApp.Tables.{MDirector, MDiv, MEmployee, MGroup, MHeadquarter, MOccupation, MSex, MTeam}
+import infrastructures.seatApp.Tables.{MDirector, MDiv, MEmployee, MGroup, MHeadquarter, MOccupation, MSex, MTeam, MEmployeeRow}
 import models.entities.department.{Div, Group, Headquarter, Team}
 import models.entities.employee.{Director, Employee, EmployeeFullInfo, Occupation, Sex}
 import models.repositories.employee.EmployeeFullInfoRepository
+import models.usecases.employee.UpdateEmployeeFullInfoInput
 import models.vo._
 import play.api.db.slick._
 import slick.jdbc.JdbcProfile
@@ -92,8 +93,31 @@ class EmployeeFullInfoRepositoryImpl @Inject()(
             )
           }
         )
-        )
-        db.run(query)
+      )
+    db.run(query)
+  }
+  override def updateEmployeeFullInfo(input: UpdateEmployeeFullInfoInput, employeeId: EmployeeId): Future[Boolean] = {
+    val employeeFullInfoRow = toEmployeeFullInfoRow(input)
+    val query = MEmployee
+      .filter(_.employeeId === input.employeeFullInfo.employee.employeeId.value)
+      .update(employeeFullInfoRow)
+
+    db.run(query).map(_ == 1)
+  }
+
+  private def toEmployeeFullInfoRow(input: UpdateEmployeeFullInfoInput): MEmployeeRow = {
+    MEmployeeRow(
+      nameKanji = input.employeeFullInfo.employee.nameKanji.value,
+      nameKana = input.employeeFullInfo.employee.nameKana.value,
+      sexId = input.employeeFullInfo.sex.sexId.value,
+      headquartersId = Option(input.employeeFullInfo.headquarter.headquarterId.value),
+      divId = Option(input.employeeFullInfo.div.divId.value),
+      groupId = Option(input.employeeFullInfo.group.groupId.value),
+      teamId = Option(input.employeeFullInfo.team.teamId.value),
+      directorId = Option(input.employeeFullInfo.director.directorId.value),
+      occupationId = Option(input.employeeFullInfo.occupation.occupationId.value),
+      employeeId = Option(input.employeeFullInfo.employee.employeeId.value)
+    )
   }
 }
 
