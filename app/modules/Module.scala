@@ -36,6 +36,7 @@ import models.usecases.employee.{
   EmployeeByEmployeeIdUsecase, EmployeeByEmployeeIdUsecaseImpl,
   UpdateEmployeeUsecase, UpdateEmployeeUsecaseImpl,
   EmployeeFullInfoUsecase, EmployeeFullInfoUsecaseImpl,
+  UpdateEmployeeFullInfoUsecase, UpdateEmployeeFullInfoUsecaseImpl
 }
 
 //repositories
@@ -61,6 +62,7 @@ class Module extends AbstractModule {
     bind(classOf[EmployeeByEmployeeIdUsecase]).to(classOf[EmployeeByEmployeeIdUsecaseImpl])
     bind(classOf[EmployeeFullInfoUsecase]).to(classOf[EmployeeFullInfoUsecaseImpl])
     bind(classOf[UpdateEmployeeUsecase]).to(classOf[UpdateEmployeeUsecaseImpl])
+    bind(classOf[UpdateEmployeeFullInfoUsecase]).to(classOf[UpdateEmployeeFullInfoUsecaseImpl])
     bind(classOf[SeatingChartUsecase]).to(classOf[SeatingChartUsecaseImpl])
     bind(classOf[SeatingChartWithUsersUsecase]).to(classOf[SeatingChartWithUsersUsecaseImpl])
 

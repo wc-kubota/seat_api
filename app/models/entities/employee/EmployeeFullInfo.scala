@@ -33,7 +33,6 @@ case class EmployeeFullInfo(
 
 
 object EmployeeFullInfo
-  extends EmployeeIdJsonSupport
 {
   implicit val config = Configuration.default.withSnakeCaseMemberNames
   implicit val decoder: Decoder[EmployeeFullInfo] = deriveConfiguredDecoder

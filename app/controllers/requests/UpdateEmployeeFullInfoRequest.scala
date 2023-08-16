@@ -26,15 +26,15 @@ object UpdateEmployeeFullInfoRequest {
   implicit val config: Configuration = Configuration.default.withSnakeCaseMemberNames
   implicit val encoder: Encoder[UpdateEmployeeFullInfoRequest] = deriveConfiguredEncoder
   implicit val decoder: Decoder[UpdateEmployeeFullInfoRequest] = deriveConfiguredDecoder
-  implicit val requestDecoder: Decoder[EmployeeFullInfo] = deriveConfiguredDecoder
-  implicit val employeeDecoder: Decoder[Employee] = deriveConfiguredDecoder
-  implicit val nameKanjiDecoder: Decoder[NameKanji] = deriveConfiguredDecoder
-  implicit val nameKanaDecoder: Decoder[NameKana] = deriveConfiguredDecoder
-  implicit val sexDecoder: Decoder[SexName] = deriveConfiguredDecoder
-  implicit val headquarterDecoder: Decoder[HeadquarterName] = deriveConfiguredDecoder
-  implicit val divDecoder: Decoder[DivName] = deriveConfiguredDecoder
-  implicit val GroupDecoder: Decoder[GroupName] = deriveConfiguredDecoder
-  implicit val teamDecoder: Decoder[TeamName] = deriveConfiguredDecoder
-  implicit val DirectorDecoder: Decoder[DirectorName] = deriveConfiguredDecoder
-  implicit val occupationDecoder: Decoder[OccupationName] = deriveConfiguredDecoder
+//  implicit val requestDecoder: Decoder[EmployeeFullInfo] = deriveConfiguredDecoder
+//  implicit val employeeDecoder: Decoder[Employee] = deriveConfiguredDecoder
+//  implicit val nameKanjiDecoder: Decoder[NameKanji] = deriveConfiguredDecoder
+//  implicit val nameKanaDecoder: Decoder[NameKana] = deriveConfiguredDecoder
+//  implicit val sexDecoder: Decoder[SexName] = deriveConfiguredDecoder
+//  implicit val headquarterDecoder: Decoder[HeadquarterName] = deriveConfiguredDecoder
+//  implicit val divDecoder: Decoder[DivName] = deriveConfiguredDecoder
+//  implicit val GroupDecoder: Decoder[GroupName] = deriveConfiguredDecoder
+//  implicit val teamDecoder: Decoder[TeamName] = deriveConfiguredDecoder
+//  implicit val DirectorDecoder: Decoder[DirectorName] = deriveConfiguredDecoder
+//  implicit val occupationDecoder: Decoder[OccupationName] = deriveConfiguredDecoder
 }
